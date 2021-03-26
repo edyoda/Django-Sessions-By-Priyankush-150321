@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+*
+{
+	font-family: 'Roboto';
+	text-decoration: none !important;
+}
+body
+{
+	margin: 0;
+	padding: 0;
+}
+ul
+{
+	list-style: none;
+}
+.sidebar
+{
+	width: 250px;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 0px 0px 10px rgba(0,0,0,.34);
+}
+.logo
+{
+	padding: 20px 0;
+	text-align: center;
+	background: #eee;
+}
+.side-menu
+{
+	padding: 0px;
+}
+.side-item
+{
+	margin-bottom: 5px;
+}
+.side-link
+{
+	position: relative;
+	display: block;
+	padding: 15px 10px;
+	color: #000;
+	transition: .3s ease;
+	z-index: 1;
+}
+.side-link i
+{
+	transition: .3s ease;
+}
+.home-icon
+{
+	color: #ff5959;
+}
+.sale-icon
+{
+	color: #6b59ff;
+}
+.order-icon
+{
+	color: #9520ff;
+}
+.cust-icon
+{
+	color: #00bf9c;
+}
+.invoice-icon
+{
+	color: #ee8400;
+}
+.side-link:before
+{
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	background: #a644ff;
+	transition: .3s ease;
+	z-index: -1;
+}
+.side-link:hover:before
+{
+	width: 100%;
+}
+.side-link:hover,
+.side-link:hover i
+{
+	color: #fff !important;
+}
+.side-link.active
+{
+	background: #a644ff;
+}
+.side-link.active,
+.side-link.active i
+{
+	color: #fff;
+}
+.content-main
+{
+	width: calc(100% - 250px);
+	margin-left: auto;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+.header
+{
+	padding: 22px 0;
+	background: linear-gradient(to right, #1e3c72, #2a5298);
+	color: #fff;
+}

@@ -1,0 +1,26 @@
+{% load static %}
+{% load extra_fun %}
+<html>
+    <head>
+        <title>index</title>
+    </head>
+    <body>
+        <h2>This is index page from app1 templates.</h2>
+        
+        <img src="{% static 'img/download.png' %}" >
+
+        {% for i in data %}
+        
+        <h4> ID :  {{i.id}} </h4>
+        <h4> Title : {{i.title|upper}} </h4>
+        <h4> Actual Content : {{i.content}} </h4>
+        <h4> Rep Content : {{i.content|rep_space}} </h4>
+        <h4> Content Length : {{i.content|length}} </h4>
+        <h4> -=-=-=-=-=-=-=-=-= </h4>
+        
+        {% endfor %}
+
+
+
+    </body>
+</html>
