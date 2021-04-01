@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% include 'sidebar.html' %}
+
+<div class="content-main">
+  <div class="">
+    {% include 'nav.html' %}
+
+    <div class="container-fluid">
+      <h3 class="text-center py-3 mb-0">Homepage Section</h3>
+      <div class="table-responsive py-2">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Mobile No</th>
+            <th>Address</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Total Price</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="order-id">#12212</td>
+              <td class="name">Patt Cummins</td>
+              <td class="mobile">12046359870</td>
+              <td class="address">Albert Road, AUS</td>
+              <td class="price">$450</td>
+              <td class="discount">$100</td>
+              <td class="total">$350</td>
+            </tr>
+            <tr>
+              <td class="order-id">#12223</td>
+              <td class="name">Harley</td>
+              <td class="mobile">1542369807</td>
+              <td class="address">Lawrence Tower, AUS</td>
+              <td class="price">$550</td>
+              <td class="discount">$50</td>
+              <td class="total">$500</td>
+            </tr>
+            <tr>
+              <td class="order-id">#12250</td>
+              <td class="name">Taylor</td>
+              <td class="mobile">65321498700</td>
+              <td class="order-id">Queens World, AUS</td>
+              <td class="order-id">$100</td>
+              <td class="order-id">$0</td>
+              <td class="order-id">$100</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% include 'footer.html' %}
+</div>
+
+{% endblock %}
