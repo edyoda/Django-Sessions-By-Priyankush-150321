@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'app3',
     'app4',
     'generic_view_app',
+    'session_cookie',
 ]
 
 MIDDLEWARE = [
