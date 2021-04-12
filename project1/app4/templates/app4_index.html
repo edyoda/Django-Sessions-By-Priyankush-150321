@@ -1,0 +1,14 @@
+<html>
+<head>
+</head>
+<body>
+    <h2>This is index.html file from app4</h2>
+
+    <form action="/url_to_verify_data/" method="post">
+        {% csrf_token %}
+        {{ form_p.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>

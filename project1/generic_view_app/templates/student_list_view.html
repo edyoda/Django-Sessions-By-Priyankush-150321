@@ -1,0 +1,15 @@
+<html>
+<head>
+</head>
+<body>
+<span> Student list page</span>
+{% for obj in all_stu %}
+    <p>ID  : {{obj.id}}</p>
+    <p>name  : {{obj.name}}</p>
+    <p>age  : {{obj.age}}</p>
+    <p>marks  : {{obj.marks}}</p>
+    <p>address  : {{obj.address}}</p>
+    <p> ======================================= </p>
+{% endfor %}
+</body>
+</html>
