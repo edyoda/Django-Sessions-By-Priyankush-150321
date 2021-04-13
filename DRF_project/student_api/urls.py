@@ -9,5 +9,6 @@ urlpatterns = [
 
 
     path('student_list_c/', Student_Create_ReadView.as_view() ),
+    path('student_list_c/<int:pk>', Student_Read_Update_DeleteView.as_view()), 
 
 ]

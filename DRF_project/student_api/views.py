@@ -77,3 +77,31 @@ class Student_Create_ReadView(APIView):
             context['message'] ='data is not get creataed successfully.' 
             context['errors'] = serializer_obj.errors 
         return Response(context)
+
+
+class Student_Read_Update_DeleteView(APIView):
+    def get(self, request, pk):
+        obj = Student.objects.get(id=pk)
+        serializer_obj = StudentSerializers(obj)
+        return Response(serializer_obj.data)
+    
+    def put(self, request, pk):
+        context = {}
+        
+        obj = Student.objects.get(id=pk)
+
+        serializer_obj = StudentSerializers(obj, data = request.data, partial=True)
+        if serializer_obj.is_valid():
+            serializer_obj.save()
+            context['message'] ='data is creataed successfully.' 
+            context['data'] = serializer_obj.data
+            context['status'] = 201
+        else:
+            context['message'] ='data is not get updated successfully.' 
+            context['errors'] = serializer_obj.errors 
+        return Response(context)
+    
+    def delete(self, request, pk):
+        obj = Student.objects.get(id=pk)
+        obj.delete()
+        return Response({'message':'Deleted successfully'})
