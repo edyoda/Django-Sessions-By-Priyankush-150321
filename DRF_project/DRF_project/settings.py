@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'student_api',
     'rest_framework',
+    'rest_framework.authtoken',
     'generic_view_app',
 
     'viewset_app',

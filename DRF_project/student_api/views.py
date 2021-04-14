@@ -1,12 +1,19 @@
-from django.shortcuts import render
+# model imports
 from .models import Student
 
+# Related to view
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import StudentSerializers
 
-# Create your views here.
+# related to token and login
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+
+# import auth and permission package
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 @api_view(['GET', 'POST'])
 def student_read_create(request):
@@ -60,6 +67,9 @@ def student_read_update_delete(request,pk):
 
 
 class Student_Create_ReadView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         obj = Student.objects.all()
         serializer_obj = StudentSerializers(obj, many=True)
@@ -105,3 +115,42 @@ class Student_Read_Update_DeleteView(APIView):
         obj = Student.objects.get(id=pk)
         obj.delete()
         return Response({'message':'Deleted successfully'})
+
+
+# View to manage API security
+class Login(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if username is None or password is None:
+            return Response({'message':'Username or password is missing.'})
+        
+        user_obj = authenticate(username=username, password=password)
+
+        if not user_obj:
+            return Response({'message':'Invalid credentials.'})
+        
+        Token.objects.filter(user=user_obj).delete()
+
+        token, created = Token.objects.get_or_create(user=user_obj)
+        return Response({'message':'Login successfully.', 'token':token.key, 'first_name':user_obj.first_name}, status=200)
+
+from django.contrib.auth.models import User
+
+# Handle the register logic
+class RegisterView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+
+        obj = User(first_name=first_name, last_name=last_name, username=username, email=username)
+        obj.save()
+
+        obj.set_password(password)
+
+        obj.save()
+
+        return Response({'message':'Register successfully.'}, status=200)
