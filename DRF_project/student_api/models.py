@@ -7,3 +7,9 @@ class Student(models.Model):
     age = models.IntegerField(default=20)
     marks = models.IntegerField(default=35)
     address = models.CharField(max_length=500)
+
+    class Meta:
+        ordering = ['-id']
+
+
+

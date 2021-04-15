@@ -15,12 +15,45 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
+# import django pagination package
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.conf import settings
+
 @api_view(['GET', 'POST'])
 def student_read_create(request):
     if request.method == 'GET':
+        
+        last_name = request.GET.get('last_name')
+
+        print('last_name  : ',last_name)
+
+        context={}
+
+        page = request.GET.get('page', 1)
         obj = Student.objects.all()
-        serializer_obj = StudentSerializers(obj, many=True)
-        return Response(serializer_obj.data)
+
+        # obj is currently hold all data
+
+        if last_name:
+            obj = obj.filter(last_name__icontain=last_name)
+
+        context['current_page'] = page
+
+        paginator = Paginator(obj, settings.ITEM_PER_PAGE)
+
+        try:
+            page_obj = paginator.page(page)
+            context['last_page'] = paginator.num_pages
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+
+        serializer_obj = StudentSerializers(page_obj, many=True)
+
+        context['data'] = serializer_obj.data
+        return Response(context)
     
     if request.method == 'POST':
         context = {}
@@ -65,19 +98,35 @@ def student_read_update_delete(request,pk):
         return Response({'message':'Deleted successfully'})
 
 
+from rest_framework.pagination import PageNumberPagination
+from .pagination import PaginationHandlerMixin
 
-class Student_Create_ReadView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+
+class BasicPagination(PageNumberPagination):
+    page_size_query_param = 'limit'
+
+class Student_Create_ReadView(APIView, PaginationHandlerMixin):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+
+    pagination_class = BasicPagination
+    serializer_class = StudentSerializers
 
     def get(self, request):
         obj = Student.objects.all()
-        serializer_obj = StudentSerializers(obj, many=True)
-        return Response(serializer_obj.data)
+        # serializer_obj = self.serializer_class(obj, many=True)
+        # return Response(serializer_obj.data)
+
+        page = self.paginate_queryset(obj)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page,many=True).data)
+        else:
+            serializer = self.serializer_class(obj, many=True)
+        return Response(serializer.data, status=200)
     
     def post(self, request):
         context = {}
-        serializer_obj = StudentSerializers(data = request.data)
+        serializer_obj = self.serializer_class(data = request.data)
         if serializer_obj.is_valid():
             serializer_obj.save()
             context['message'] ='data is creataed successfully.' 

@@ -4,9 +4,14 @@ from rest_framework.response import Response
 
 from rest_framework import generics
 
+# import package for filter
+from rest_framework import filters
+
 class StuListView(generics.ListAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializers
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['first_name', 'last_name']
 
 class StuCreateView(generics.CreateAPIView):
     serializer_class = StudentSerializers
